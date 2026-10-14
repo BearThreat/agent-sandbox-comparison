@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On-Demand Computers for AI Agents — Price Comparison (Oct 2026)</title>
+<meta name="description" content="Side-by-side comparison of E2B, Daytona, Cloudflare, Vercel, Modal and Fly for spinning up agent sandboxes and eval environments.">
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --border: #30363d; --text: #e6edf3;
+    --muted: #8b949e; --accent: #58a6ff; --good: #3fb950; --warn: #d29922;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 48px 20px 80px; }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; margin: 0 0 8px; }
+  h2 { font-size: 1.35rem; margin: 48px 0 12px; }
+  .sub { color: var(--muted); margin: 0 0 32px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .tldr {
+    background: linear-gradient(135deg, #1f2a44, #16202f); border: 1px solid #2d4a7a;
+    border-radius: 14px; padding: 20px 24px;
+  }
+  .tldr p { margin: 6px 0; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .card h3 { margin: 0; font-size: 1.15rem; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .price { font-size: 1.5rem; font-weight: 700; color: var(--good); }
+  .price small { font-size: .8rem; color: var(--muted); font-weight: 400; }
+  .tag {
+    font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 99px;
+    background: #1f6feb33; color: var(--accent); border: 1px solid #1f6feb66; white-space: nowrap;
+  }
+  .tag.green { background: #23863633; color: var(--good); border-color: #23863666; }
+  .tag.amber { background: #9e6a0333; color: var(--warn); border-color: #9e6a0366; }
+  .card ul { margin: 0; padding-left: 18px; color: var(--muted); }
+  .card ul li strong { color: var(--text); font-weight: 600; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; }
+  table { width: 100%; border-collapse: collapse; min-width: 720px; }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--panel); color: var(--muted); font-weight: 600; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; }
+  tr:last-child td { border-bottom: 0; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .pick { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pick div { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .pick b { display: block; }
+  @media (max-width: 640px) { .pick { grid-template-columns: 1fr; } }
+  .note { color: var(--muted); font-size: .9rem; }
+  footer { margin-top: 56px; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--border); padding-top: 20px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>On-demand computers for AI agents</h1>
+  <p class="sub">Spin up a clean, isolated machine for each agent run or eval, then throw it away. Prices were checked on each vendor's pricing page on <strong>14 Oct 2026</strong>.</p>
+
+  <div class="tldr">
+    <p><strong>Short version</strong></p>
+    <p>🥇 <strong>E2B</strong> is the industry default: one SDK call per sandbox, about $0.17/hr, and a full Linux desktop for computer-use agents.</p>
+    <p>💸 <strong>Daytona</strong> costs the same and gives $200 in free credit, plus Windows VMs and GPUs.</p>
+    <p>💤 If your agent mostly waits on LLM calls, <strong>Cloudflare</strong> or <strong>Vercel</strong> is cheapest, because they bill only for CPU time actually used.</p>
+  </div>
+
+  <h2>The options</h2>
+  <div class="grid">
+    <div class="card">
+      <h3><a href="https://e2b.dev/pricing">E2B</a> <span class="tag green">Industry default</span></h3>
+      <div class="price">$0.17<small> / hr · 2 vCPU, 4 GiB</small></div>
+      <ul>
+        <li><strong>Billing:</strong> per second ($0.000014 per vCPU-second, $0.0000045 per GiB-second)</li>
+        <li><strong>Free:</strong> $100 one-time credit. Pro is $150/mo.</li>
+        <li><strong>Max session:</strong> 1 h on the free plan, 24 h on Pro</li>
+        <li><strong>Computer use:</strong> <a href="https://github.com/e2b-dev/desktop">E2B Desktop</a> (open source) gives a Linux desktop with mouse, keyboard, screenshot and screen-stream APIs</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><a href="https://www.daytona.io/pricing">Daytona</a> <span class="tag green">Best value</span></h3>
+      <div class="price">$0.17<small> / hr · 2 vCPU, 4 GiB</small></div>
+      <ul>
+        <li><strong>Billing:</strong> per second. Same rates as E2B; the first 5 GiB of disk is free.</li>
+        <li><strong>Free:</strong> $200 in credit, no card needed</li>
+        <li><strong>Startup:</strong> under 90 ms (vendor's claim)</li>
+        <li><strong>Extras:</strong> Windows VMs ($0.0858 per vCPU-hour), GPUs from $0.57/hr</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><a href="https://developers.cloudflare.com/containers/platform/pricing/">Cloudflare Containers</a> <span class="tag">Cheapest when idle</span></h3>
+      <div class="price">~$0.08–0.22<small> / hr · 2 vCPU, 8 GiB</small></div>
+      <ul>
+        <li><strong>Billing:</strong> every 10 ms. CPU is charged only when used ($0.00002 per vCPU-second).</li>
+        <li><strong>Free:</strong> small monthly allowance on the $5 Workers plan</li>
+        <li><strong>Behavior:</strong> sleeps to zero when idle; uses the Sandbox SDK</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><a href="https://vercel.com/docs/vercel-sandbox/pricing">Vercel Sandbox</a> <span class="tag">Eval-friendly</span></h3>
+      <div class="price">~$0.11–0.34<small> / hr · 2 vCPU, 4 GB</small></div>
+      <ul>
+        <li><strong>Billing:</strong> $0.128 per active-CPU hour and $0.0212 per GB-hour of memory</li>
+        <li><strong>Free:</strong> 5 CPU-hours a month on Hobby</li>
+        <li><strong>Max session:</strong> 45 min on Hobby, 24 h on Pro. Up to 10,000 sandboxes at once on Pro.</li>
+        <li>Official guide for running Terminal-Bench and SWE-bench evals</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><a href="https://modal.com/pricing">Modal Sandboxes</a> <span class="tag amber">Priciest</span></h3>
+      <div class="price">$0.24<small> / hr · 2 vCPU, 4 GiB</small></div>
+      <ul>
+        <li><strong>Billing:</strong> per second. Sandboxes cost about 3× Modal's normal CPU rate.</li>
+        <li><strong>Free:</strong> $30 a month in credit</li>
+        <li><strong>Pick it if:</strong> you already use Modal or need GPUs inside the sandbox</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><a href="https://docs.fly.io/about/pricing">Fly Machines</a> <span class="tag">Raw VM</span></h3>
+      <div class="price">$0.09<small> / hr · 2 vCPU, 4 GB</small></div>
+      <ul>
+        <li><strong>Billing:</strong> per second while running. A stopped machine costs $0.15 per GB per month of disk.</li>
+        <li><strong>Catch:</strong> a plain VM, not a sandbox SDK, so you build the agent wiring yourself</li>
+        <li><strong>Pick it if:</strong> the CPU stays busy and you want the lowest price</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Service</th><th>$/hr (2 vCPU)</th><th>Billed on</th><th>Free to start</th><th>Max session</th><th>Desktop / GUI</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://e2b.dev/pricing">E2B</a></td><td class="num">$0.17</td><td>Allocated CPU + RAM</td><td>$100 one-time</td><td>1 h / 24 h</td><td>✅ E2B Desktop</td></tr>
+        <tr><td><a href="https://www.daytona.io/pricing">Daytona</a></td><td class="num">$0.17</td><td>Allocated CPU + RAM + disk</td><td>$200</td><td>—</td><td>Windows VMs</td></tr>
+        <tr><td><a href="https://developers.cloudflare.com/containers/platform/pricing/">Cloudflare</a></td><td class="num">$0.08–0.22</td><td>CPU actually used</td><td>Small allowance on $5/mo plan</td><td>—</td><td>—</td></tr>
+        <tr><td><a href="https://vercel.com/docs/vercel-sandbox/pricing">Vercel</a></td><td class="num">$0.11–0.34</td><td>CPU actually used + RAM</td><td>5 CPU-hours a month</td><td>45 min / 24 h</td><td>—</td></tr>
+        <tr><td><a href="https://modal.com/pricing">Modal</a></td><td class="num">$0.24</td><td>Allocated CPU + RAM</td><td>$30 a month</td><td>—</td><td>—</td></tr>
+        <tr><td><a href="https://docs.fly.io/about/pricing">Fly</a></td><td class="num">$0.09</td><td>Running VM time</td><td>—</td><td>No limit</td><td>DIY</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">The hourly figures are calculated from each vendor's published per-second rates. Where a price is a range, the low end is a mostly idle agent (about 10% CPU) and the high end is full CPU. A dash means the pricing page did not say.</p>
+
+  <h2>Which one?</h2>
+  <div class="pick">
+    <div><b>“I want the standard thing”</b>E2B</div>
+    <div><b>“I want free credit or Windows”</b>Daytona</div>
+    <div><b>“My agent mostly waits on the model”</b>Cloudflare or Vercel</div>
+    <div><b>“I need GPUs in the sandbox”</b>Modal or Daytona</div>
+    <div><b>“Computer use / GUI agents”</b>E2B Desktop</div>
+    <div><b>“Lowest cost, busy CPU, I'll wire it myself”</b>Fly Machines</div>
+  </div>
+
+  <h2>When you don't need any of these</h2>
+  <p>For one person running trusted evals, a local Docker container costs nothing and starts faster. Rented sandboxes earn their cost when you need many runs in parallel, untrusted code or prompts, or a guaranteed clean machine for every run.</p>
+
+  <footer>
+    Prices were checked on each vendor's pricing page on 14 Oct 2026 and may change. Not checked: Daytona's computer-use API, and browser-only services such as Browserbase and Steel.
+  </footer>
+</main>
+</body>
+</html>
